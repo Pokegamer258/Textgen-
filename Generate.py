@@ -19,18 +19,13 @@ import io
 from keras.models import model_from_json
 from scipy.misc import imread, imresize,imshow
 import os
-
-#path = get_file(
-path = 'inspiration.txt'
-    #'nietzsche.txt',
-   # origin='https://s3.amazonaws.com/text-datasets/nietzsche.txt')
-    #'romeo+juliet.txt',
-    #origin='http://www.awesomefilm.com/script/romeo+juliet.txt')
-
-with io.open(path, encoding='utf-8') as f:
-
-#with io.open(path, encoding='latin-1') as f:
-    text = f.read().lower()
+#get file
+path = get_file('romeo+juliet.txt', origin='http://www.awesomefilm.com/script/romeo+juliet.txt')
+#reads file
+with io.open(path, encoding='latin-1') as f:
+ #makes everything lowercase
+    text = f.read().lower()   
+#makes variables important to establish input shape    
 chars = sorted(list(set(text)))
 char_indices = dict((c, i) for i, c in enumerate(chars))
 indices_char = dict((i, c) for i, c in enumerate(chars))
@@ -41,19 +36,13 @@ next_chars = []
 for i in range(0, len(text) - maxlen, step):
     sentences.append(text[i: i + maxlen])
     next_chars.append(text[i + maxlen])
-# fix random seed for reproducibility
+#load model    
 json_file = open('model.json', 'r')
 loaded_model_json = json_file.read()
 json_file.close()
 loaded_model = model_from_json(loaded_model_json)
 # load weights into new model
 loaded_model.load_weights("model.h5")
-print("Loaded model from disk")
- 
-# evaluate loaded model on test data
-#loaded_model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-#score = loaded_model.evaluate(x, y, verbose=0)
-#print("%s: %.2f%%" % (loaded_model.metrics_names[1], score[1]*100))
 
 def sample(preds, temperature=1.0):
     # helper function to sample an index from a probability array
@@ -92,8 +81,5 @@ for diversity in [0.2, 0.5, 1.0, 1.2]:
             sys.stdout.write(next_char)
             sys.stdout.flush()
         print()
-# f.write(preds)
-f.write("------------------------------")
 
-print("----complete")
 
