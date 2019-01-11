@@ -14,12 +14,7 @@ import random
 import sys
 import io
 
-#path = get_file(
-path = 'inspiration.txt'
-    #'nietzsche.txt',
-   # origin='https://s3.amazonaws.com/text-datasets/nietzsche.txt')
-   # 'romeo+juliet.txt',
-    #origin='http://www.awesomefilm.com/script/romeo+juliet.txt')
+path = get_file('romeo+juliet.txt', origin='http://www.awesomefilm.com/script/romeo+juliet.txt')
 
 with io.open(path, encoding='utf-8') as f:
 
